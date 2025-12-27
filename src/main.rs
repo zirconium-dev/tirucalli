@@ -34,6 +34,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let state = InputState::from(args.value);
         // let event = InputDbusEvent::from_str(args.event);
         println!("{}, {:?}", args.event(), state);
+        if (args.event() == "ui_launcher") && (state == InputState::Pressed) {
+            niri_socket
+                .send(niri_ipc::Request::Action(niri_ipc::Action::SpawnSh { command: "dms ipc call spotlight toggle".to_string() }))
+                .expect("whatever?")
+                .expect("fucking i dont know");
+        }
         if (args.event() == "ui_window_up") && (state == InputState::Pressed) {
             niri_socket
                 .send(niri_ipc::Request::Action(niri_ipc::Action::FocusWindowOrWorkspaceUp {  }))

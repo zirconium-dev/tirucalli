@@ -115,7 +115,7 @@ mapping:
       gamepad:
         button: Start
     target_events:
-      - dbus: ui_overview
+      - dbus: ui_launcher
 
   - name: Select
     source_event:
@@ -132,13 +132,6 @@ mapping:
       - keyboard: KeySpace
 
   - name: X Button
-    source_event:
-      gamepad:
-        button: North
-    target_events:
-      - dbus: ui_overview
-
-  - name: Y Button
     source_event:
       gamepad:
         button: North
