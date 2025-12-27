@@ -370,6 +370,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "itoa"
+version = "1.0.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "92ecc6618181def0457392ccd0ee51198e065e016d1d527a7ac1b6dc7c1f09d2"
+
+[[package]]
 name = "js-sys"
 version = "0.3.83"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -424,6 +430,15 @@ dependencies = [
  "libc",
  "wasi",
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "niri-ipc"
+version = "25.11.0"
+source = "git+https://github.com/yalter/niri.git#b5640d5293ad8dca06cb447692ea7cbb21680eb1"
+dependencies = [
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -559,6 +574,7 @@ name = "redirect-niri"
 version = "0.1.0"
 dependencies = [
  "futures-util",
+ "niri-ipc",
  "tokio",
  "zbus",
 ]
@@ -625,6 +641,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "serde_json"
+version = "1.0.148"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3084b546a1dd6289475996f182a22aba973866ea8e8b02c51d9f46b1336a22da"
+dependencies = [
+ "itoa",
+ "memchr",
+ "serde",
+ "serde_core",
+ "zmij",
 ]
 
 [[package]]
@@ -1065,6 +1094,12 @@ dependencies = [
  "winnow",
  "zvariant",
 ]
+
+[[package]]
+name = "zmij"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e6d6085d62852e35540689d1f97ad663e3971fc19cf5eceab364d62c646ea167"
 
 [[package]]
 name = "zvariant"

@@ -1,0 +1,187 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ShadowBlip/InputPlumber/main/rootfs/usr/share/inputplumber/schema/device_profile_v1.json
+# Schema version number
+version: 1
+
+# The type of configuration schema
+kind: DeviceProfile
+
+# Name of the device profile
+name: Mouse and Keyboard (WASD)
+
+# Description of the device profile
+description: Gamepad mapping to Mouse + WASD keyboard controls
+
+# Profile mappings
+mapping:
+  # Guide to DBus
+  - name: Guide
+    source_event:
+      gamepad:
+        button: Guide
+    target_events:
+      - dbus: ui_guide
+
+  - name: Quick Access
+    source_event:
+      gamepad:
+        button: QuickAccess
+    target_events:
+      - dbus: ui_quick
+
+  # Dpad
+  - name: D-Up
+    source_event:
+      gamepad:
+        button: DPadUp
+    target_events:
+      - dbus: ui_window_up
+
+  - name: D-Down
+    source_event:
+      gamepad:
+        button: DPadDown
+    target_events:
+      - dbus: ui_window_down
+
+  - name: D-Left
+    source_event:
+      gamepad:
+        button: DPadLeft
+    target_events:
+      - dbus: ui_window_left
+
+  - name: D-Right
+    source_event:
+      gamepad:
+        button: DPadRight
+    target_events:
+      - dbus: ui_window_right
+
+  # Left Stick
+  - name: Left
+    source_event:
+      gamepad:
+        axis:
+          name: LeftStick
+          direction: left
+          deadzone: 0.3
+    target_events:
+      - dbus: ui_window_left
+
+  - name: Right
+    source_event:
+      gamepad:
+        axis:
+          name: LeftStick
+          direction: right
+          deadzone: 0.3
+    target_events:
+      - dbus: ui_window_right
+
+  - name: Up
+    source_event:
+      gamepad:
+        axis:
+          name: LeftStick
+          direction: up
+          deadzone: 0.3
+    target_events:
+      - dbus: ui_window_up
+
+  - name: Down
+    source_event:
+      gamepad:
+        axis:
+          name: LeftStick
+          direction: down
+          deadzone: 0.3
+    target_events:
+      - dbus: ui_window_down
+
+  # Right Stick
+  - name: Joystick Mouse
+    source_event:
+      gamepad:
+        axis:
+          name: RightStick
+    target_events:
+      - mouse:
+          motion:
+            speed_pps: 1600 # default to 800pps
+
+  # Buttons
+  - name: Menu
+    source_event:
+      gamepad:
+        button: Start
+    target_events:
+      - dbus: ui_overview
+
+  - name: Select
+    source_event:
+      gamepad:
+        button: Select
+    target_events:
+      - keyboard: KeyTab
+
+  - name: A Button
+    source_event:
+      gamepad:
+        button: South
+    target_events:
+      - keyboard: KeySpace
+
+  - name: X Button
+    source_event:
+      gamepad:
+        button: North
+    target_events:
+      - dbus: ui_overview
+
+  - name: Y Button
+    source_event:
+      gamepad:
+        button: North
+    target_events:
+      - dbus: ui_overview
+
+  - name: B Button
+    source_event:
+      gamepad:
+        button: East
+    target_events:
+      - keyboard: KeyE
+
+  # Triggers
+  - name: Right Bumper
+    source_event:
+      gamepad:
+        button: RightBumper
+    target_events:
+      - mouse:
+          button: Left
+
+  - name: Left Bumper
+    source_event:
+      gamepad:
+        button: LeftBumper
+    target_events:
+      - mouse:
+          button: Right
+
+  # Bumpers
+  - name: RB
+    source_event:
+      gamepad:
+        button: RightBumper
+    target_events:
+      - mouse:
+          button: WheelUp
+
+  - name: LB
+    source_event:
+      gamepad:
+        button: LeftBumper
+    target_events:
+      - mouse:
+          button: WheelDown
