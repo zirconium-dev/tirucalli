@@ -1,6 +1,7 @@
 mod events;
 use events::{InputState, InputMapping};
 
+use log::log;
 use zbus::{Connection, proxy};
 use futures_util::stream::StreamExt;
 
@@ -14,8 +15,16 @@ trait DBusDevice {
     fn input_event(&self, event: String, value: f64) -> zbus::Result<()>;
 }
 
+fn call_ipc_quick(action: niri_ipc::Request::Action) {
+    niri_socket.send(action).expect("Failure").expect("No idea");
+}
+
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    env_logger::init();
+
+    log::debug!("amogus");
     let connection = Connection::system().await?;
 
     let mut niri_socket = niri_ipc::socket::Socket::connect().expect("Failed talking to niri socket");
@@ -26,7 +35,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
 
     println!("Waiting for signal...");
-
     let mut stream = proxy.receive_input_event().await?;
 
     while let Some(v) = stream.next().await {
@@ -34,47 +42,41 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let state = InputState::from(args.value);
         // let event = InputDbusEvent::from_str(args.event);
         println!("{}, {:?}", args.event(), state);
-        if (args.event() == "ui_launcher") && (state == InputState::Pressed) {
-            niri_socket
-                .send(niri_ipc::Request::Action(niri_ipc::Action::SpawnSh { command: "dms ipc call spotlight toggle".to_string() }))
-                .expect("whatever?")
-                .expect("fucking i dont know");
+
+        if (state == InputState::Pressed) {
+            match args.event() {
+                "ui_launcher" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::SpawnSh { command: "dms ipc call spotlight toggle".to_string() }));
+                }
+                "ui_closewindow" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::CloseWindow { id: None }));
+                }
+                "ui_window_up" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::FocusWindowOrWorkspaceUp {  }));
+                }
+                "ui_window_down" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::FocusWindowOrWorkspaceDown {  }));
+                }
+                "ui_window_left" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::FocusWindowOrWorkspaceLeft {  }));
+                }
+                "ui_window_right" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::FocusWindowOrWorkspaceRight {  }));
+                }
+                "ui_overview" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::OpenOverview {  }));
+                }
+            }
+
         }
-        if (args.event() == "ui_window_up") && (state == InputState::Pressed) {
-            niri_socket
-                .send(niri_ipc::Request::Action(niri_ipc::Action::FocusWindowOrWorkspaceUp {  }))
-                .expect("whatever?")
-                .expect("fucking i dont know");
-        }
-        if (args.event() == "ui_window_down") && (state == InputState::Pressed) {
-            niri_socket
-                .send(niri_ipc::Request::Action(niri_ipc::Action::FocusWindowOrWorkspaceDown {  }))
-                .expect("whatever?")
-                .expect("fucking i dont know");
-        }
-        if (args.event() == "ui_window_left") && (state == InputState::Pressed) {
-            niri_socket
-                .send(niri_ipc::Request::Action(niri_ipc::Action::FocusColumnOrMonitorLeft {  }))
-                .expect("whatever?")
-                .expect("fucking i dont know");
-        }
-        if (args.event() == "ui_window_right") && (state == InputState::Pressed) {
-            niri_socket
-                .send(niri_ipc::Request::Action(niri_ipc::Action::FocusColumnOrMonitorRight {  }))
-                .expect("whatever?")
-                .expect("fucking i dont know");
-        }
-        if (args.event() == "ui_overview") && (state == InputState::Pressed) {
-            niri_socket
-                .send(niri_ipc::Request::Action(niri_ipc::Action::OpenOverview {  }))
-                .expect("whatever?")
-                .expect("fucking i dont know");
-        }
-        if (args.event() == "ui_overview") && (state == InputState::Released) {
-            niri_socket
-                .send(niri_ipc::Request::Action(niri_ipc::Action::CloseOverview {  }))
-                .expect("whatever?")
-                .expect("fucking i dont know");
+
+        if (state == InputState::Released) {
+            match args.event() {
+                "ui_overview" => {
+                    call_ipc_quick(niri_ipc::Request::Action(niri_ipc::Action::CloseOverview {  }));
+                }
+                _ => (),
+            }
         }
     }
 

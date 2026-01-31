@@ -14,15 +14,10 @@ impl From<f64> for InputState {
 }
 
 pub enum InputMapping {
-    Up,
-    Down,
-    Left,
-    Right,
-    AltUp,
-    AltDown,
-    AltLeft,
-    AltRight,
-    North,
-    South,
-    
+    UiLauncher,
+    UiCloseWindow,
+    UiWindowUp,
+    UiWindowDown,
+    UiWindowLeft,
+    UiWindowRight,
 }

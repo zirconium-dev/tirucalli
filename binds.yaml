@@ -34,28 +34,32 @@ mapping:
       gamepad:
         button: DPadUp
     target_events:
-      - dbus: ui_window_up
+      - keyboard: KeyUp
+      # - dbus: ui_window_up
 
   - name: D-Down
     source_event:
       gamepad:
         button: DPadDown
     target_events:
-      - dbus: ui_window_down
+      - keyboard: KeyDown
+      # - dbus: ui_window_down
 
   - name: D-Left
     source_event:
       gamepad:
         button: DPadLeft
     target_events:
-      - dbus: ui_window_left
+      - keyboard: KeyLeft
+      # - dbus: ui_window_left
 
   - name: D-Right
     source_event:
       gamepad:
         button: DPadRight
     target_events:
-      - dbus: ui_window_right
+      - keyboard: KeyRight
+      # - dbus: ui_window_right
 
   # Left Stick
   - name: Left
@@ -136,14 +140,22 @@ mapping:
       gamepad:
         button: North
     target_events:
-      - dbus: ui_overview
+      - keyboard: KeyEnter
+      # - dbus: ui_overview
 
-  - name: B Button
+  - name: Y Button
     source_event:
       gamepad:
         button: East
     target_events:
-      - keyboard: KeyE
+      - dbus: ui_closewindow
+
+  - name: Tabs
+    source_event:
+      gamepad:
+        button: RightTrigger
+    target_events:
+      - keyboard: KeyTab
 
   # Triggers
   - name: Right Bumper

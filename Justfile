@@ -1,5 +1,8 @@
 binary_name := "redirect-niri"
 
+plumber-less-annoying:
+    inputplumber devices manage-all --enable
+
 setup-binds $profile="./binds.yaml":
     #!/usr/bin/env bash
     busctl call org.shadowblip.InputPlumber \
@@ -8,5 +11,5 @@ setup-binds $profile="./binds.yaml":
       LoadProfilePath "s" "$(realpath "${profile}")"
 
 run:
-    cargo build --release
+    cargo build
     ./target/release/redirect-niri
